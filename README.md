@@ -13,6 +13,20 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 - 如果你想做项目：直接看「Project Ladder」，每一档做一个可运行作品。
 - 如果你只想找资料：看「Curated Resources」，优先读官方文档和经典论文。
 
+## What To Learn Now
+
+Agent 领域变化很快。当前更值得投入的不是老式“角色扮演多 agent 框架”，而是这些更贴近真实生产力的方向：
+
+| Priority | Learn | Why |
+| --- | --- | --- |
+| 1 | Claude Code / Codex-style coding agents | 真实代码库、shell、文件编辑、测试、权限、上下文压缩，是最好的 agent 工程样本。 |
+| 2 | Agent harness engineering | agent 的能力很大一部分来自 harness：工具协议、权限、状态、反馈、回放、CI、评测。 |
+| 3 | OpenClaw / Hermes-style personal agents | 长运行、本地优先、跨应用、记忆、skills、消息入口，更像“个人操作系统”。 |
+| 4 | MCP / A2A / ACP | agent 和工具、agent 和 agent、agent 和宿主应用之间的协议化。 |
+| 5 | Evaluation and safety | 没有 eval、trace、权限边界的 agent 只能算 demo。 |
+
+不建议把精力重押在已经泛化成模板的老式 crew/role-play 框架上。它们可以了解，但不应成为主线。
+
 ## Learning Todo List
 
 ### Stage 0: Understand What An Agent Is
@@ -59,26 +73,27 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 
 产出：一个资料研究助手，输入主题后自动搜索、筛选、总结并输出引用链接。
 
-### Stage 3: Pick One Agent Framework
+### Stage 3: Study One Modern Agent Harness
 
-先选一个主框架学深，不要同时浅尝所有框架。
+先选一个现代 agent 系统学深。这里的重点不是“框架 API 怎么调”，而是它如何组织工具、上下文、权限、状态、日志、子任务和反馈。
 
-| Framework | Best For | Learn This If You Want To |
+| System | Best For | Learn This If You Want To |
 | --- | --- | --- |
-| [LangGraph](https://langchain-ai.github.io/langgraph/) | Stateful workflows, graph orchestration | 构建可控、可恢复、可调试的复杂 agent |
-| [OpenAI Agents SDK](https://platform.openai.com/docs/guides/agents-sdk/) | OpenAI-native agents | 学 handoff、tracing、guardrails、工具编排 |
-| [CrewAI](https://docs.crewai.com/) | Role-based agent teams | 做内容生产、研究、运营类多角色协作 |
-| [Microsoft AutoGen](https://microsoft.github.io/autogen/) | Multi-agent conversations | 学 agent 之间如何对话与协作 |
-| [LlamaIndex](https://docs.llamaindex.ai/) | Data/RAG agents | 做知识库、文档、企业数据类 agent |
-| [Pydantic AI](https://pydantic.dev/docs/ai/core-concepts/agent/) | Typed Python agents | 做类型安全、结构清晰的生产代码 |
+| [Claude Code Docs](https://code.claude.com/docs/en/overview) | Coding agent product | 学真实 coding agent 的 CLI、工具、权限、hooks、subagents、MCP。 |
+| [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) | From-scratch agent harness | 从 0 到 1 复刻 Claude Code-like harness。 |
+| [HelloAgents](https://github.com/jjyaoao/HelloAgents) | Production multi-agent framework | 学 ToolResponse、上下文工程、会话持久化、TaskTool、TraceLogger 等工程能力。 |
+| [OpenClaw](https://github.com/openclaw/openclaw) | Local-first personal agent | 学本地长运行 agent、skills、消息入口、系统工具和安全边界。 |
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | Self-hosted growing agent | 学长期记忆、skills、toolsets、多平台消息网关和迁移能力。 |
+| [harnext](https://github.com/QualityUnit/harnext) | CI harness for coding agents | 学 issue -> workflow -> runner -> PR 的 agent 工程流水线。 |
+| [LangGraph](https://langchain-ai.github.io/langgraph/) | Stateful graph orchestration | 学状态图、可恢复执行和可控编排。 |
 
-- [ ] 跑通一个官方 quickstart。
-- [ ] 改造 quickstart，让它调用你自己的工具。
-- [ ] 加入状态管理或 memory。
-- [ ] 打印完整 trace，能解释每一步为什么发生。
-- [ ] 把同一个任务分别用「裸 agent loop」和「框架」实现，对比差异。
+- [ ] 读懂一个 agent harness 的目录结构。
+- [ ] 找出它的 agent loop、tool registry、permission gate、session store、context compaction。
+- [ ] 跑通它的最小示例，并加一个你自己的工具。
+- [ ] 观察一次完整 trace，解释每一步为什么发生。
+- [ ] 把同一个任务分别用「裸 agent loop」和「harness」实现，对比差异。
 
-产出：一个可调试的 agent 项目，包含 README、运行步骤、示例输入输出。
+产出：一个可调试的 agent harness demo，包含 README、运行步骤、示例输入输出和失败记录。
 
 ### Stage 4: Multi-Agent Is Coordination, Not Magic
 
@@ -90,10 +105,11 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 
 推荐阅读：
 
+- [Claude Code Subagents](https://code.claude.com/docs/en/sub-agents)
+- [Claude Code Hooks](https://code.claude.com/docs/en/hooks)
 - [Google Agent Development Kit](https://google.github.io/adk-docs/)
-- [Google ADK announcement](https://developers.googleblog.com/agent-development-kit-easy-to-build-multi-agent-applications/)
 - [Agent2Agent Protocol](https://google-a2a.github.io/A2A/specification/)
-- [AutoGen paper](https://arxiv.org/abs/2308.08155)
+- [Agent Client Protocol](https://agentclientprotocol.com/)
 
 产出：一个小型多 agent 系统，例如 research -> write -> review -> revise。
 
@@ -152,9 +168,10 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 | 3 | PDF QA Agent | RAG、chunk、retrieval、citation |
 | 4 | Coding Review Agent | 读取 diff、风险排序、测试建议 |
 | 5 | Browser Agent | 页面观察、点击、提取、失败恢复 |
-| 6 | Multi-Agent Writer | planner、writer、reviewer 协作 |
-| 7 | Personal Knowledge Agent | 文件、网页、笔记、长期记忆 |
-| 8 | Production Agent | evals、trace、权限、部署、监控 |
+| 6 | Claude Code-like Nano Agent | shell、文件编辑、权限、session、compact |
+| 7 | Multi-Agent Writer | planner、writer、reviewer 协作 |
+| 8 | Personal Agent | OpenClaw/Hermes-style 记忆、skills、消息入口 |
+| 9 | Production Harness | evals、trace、权限、CI、runner、回放 |
 
 ## Curated Resources
 
@@ -163,6 +180,11 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 | Resource | Why It Matters |
 | --- | --- |
 | [Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) | Agent 设计入门必读，讲清 workflow 和 agent 的边界。 |
+| [Claude Code Overview](https://code.claude.com/docs/en/overview) | 当前最值得研究的 coding agent 产品文档入口。 |
+| [Claude Code Subagents](https://code.claude.com/docs/en/sub-agents) | 学任务拆分、上下文隔离、专用子代理。 |
+| [Claude Code Hooks](https://code.claude.com/docs/en/hooks) | 学如何拦截、校验和扩展 agent 行为。 |
+| [Claude Code GitHub Actions](https://docs.claude.com/en/docs/claude-code/github-actions) | 学 coding agent 如何进入 PR / issue 工作流。 |
+| [Claude Code Advanced Patterns](https://resources.anthropic.com/hubfs/Claude%20Code%20Advanced%20Patterns_%20Subagents%2C%20MCP%2C%20and%20Scaling%20to%20Real%20Codebases.pdf) | Anthropic 官方材料，覆盖 subagents、MCP 和真实代码库扩展。 |
 | [OpenAI: A practical guide to building agents](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) | 面向产品和工程团队的 agent 落地指南。 |
 | [OpenAI: New tools for building agents](https://openai.com/index/new-tools-for-building-agents/) | Responses API、Agents SDK、工具和 tracing 的官方介绍。 |
 | [OpenAI Agents SDK](https://platform.openai.com/docs/guides/agents-sdk/) | OpenAI 原生 agent 开发入口。 |
@@ -173,18 +195,30 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 | [Google Agent Development Kit](https://google.github.io/adk-docs/) | Google 的 agent 开发框架。 |
 | [Model Context Protocol](https://modelcontextprotocol.io/) | Agent 连接工具和数据源的重要协议。 |
 
-### Framework Docs
+### Modern Agent Systems
 
-| Framework | Link |
-| --- | --- |
-| LangGraph | https://langchain-ai.github.io/langgraph/ |
-| LangChain | https://docs.langchain.com/ |
-| LlamaIndex | https://docs.llamaindex.ai/ |
-| CrewAI | https://docs.crewai.com/ |
-| AutoGen | https://microsoft.github.io/autogen/ |
-| Semantic Kernel Agents | https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/ |
-| Pydantic AI | https://pydantic.dev/docs/ai/core-concepts/agent/ |
-| Qwen-Agent | https://github.com/QwenLM/Qwen-Agent |
+| System | Link | Why It Is Useful |
+| --- | --- | --- |
+| Claude Code | https://code.claude.com/docs/en/overview | 学 coding agent 的产品化形态：shell、文件、权限、hooks、subagents、MCP。 |
+| learn-claude-code | https://github.com/shareAI-lab/learn-claude-code | 从零构建 Claude Code-like nano agent，适合理解 harness engineering。 |
+| HelloAgents | https://github.com/jjyaoao/HelloAgents | 生产级多智能体框架，适合学习 agent 工程化组件。 |
+| OpenClaw | https://github.com/openclaw/openclaw | 本地优先的个人 agent，适合研究长运行 agent 和系统级工具调用。 |
+| Hermes Agent | https://github.com/NousResearch/hermes-agent | 自托管、长期记忆、skills、消息网关和 toolsets。 |
+| harnext | https://github.com/QualityUnit/harnext | 面向 CI 的 coding agent harness，把 issue 推进到 PR。 |
+| Harness Agents | https://developer.harness.io/docs/platform/harness-ai/harness-agents/ | 企业 AI workflow/agent 模板和 pipeline 集成参考。 |
+| LangGraph | https://langchain-ai.github.io/langgraph/ | 状态图和可控 agent 编排，仍然值得作为工程基础学习。 |
+| Qwen-Agent | https://github.com/QwenLM/Qwen-Agent | 国产模型生态里的工具调用、RAG、MCP agent 框架。 |
+| Pydantic AI | https://pydantic.dev/docs/ai/core-concepts/agent/ | 类型安全和结构化输出，适合生产 Python agent。 |
+
+### Legacy Or Optional Frameworks
+
+这些项目仍有参考价值，但不建议作为当前学习主线。
+
+| Framework | Link | Note |
+| --- | --- | --- |
+| CrewAI | https://docs.crewai.com/ | 可了解 role/task/crew 抽象，但很多场景已经被更强的 coding agent / harness 形态覆盖。 |
+| AutoGen | https://microsoft.github.io/autogen/ | 多 agent 对话框架经典项目，适合了解历史和论文，不必重押。 |
+| LangChain Agents | https://docs.langchain.com/ | 生态仍重要，但建议重点转向 LangGraph 和具体工程模式。 |
 
 ### Papers
 
@@ -200,22 +234,28 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 | [WebArena](https://arxiv.org/abs/2307.13854) | 真实网页环境下的 agent benchmark。 |
 | [SWE-bench](https://arxiv.org/abs/2310.06770) | 真实 GitHub issue 修复评测。 |
 | [SWE-agent](https://arxiv.org/abs/2405.15793) | 软件工程 agent 的 agent-computer interface。 |
+| [Dive into Claude Code](https://arxiv.org/abs/2604.14228) | 从系统设计角度分析 Claude Code 这类 coding agent 的 harness、权限、压缩和扩展机制。 |
+| [AI Harness Engineering](https://arxiv.org/abs/2605.13357) | 把 harness 作为 agent 能力来源来研究。 |
+| [Configuring Agentic AI Coding Tools](https://arxiv.org/abs/2602.14690) | 对 Claude Code、Codex、Gemini、Cursor 等 coding tools 的配置机制分析。 |
+| [Your Agent, Their Asset](https://arxiv.org/abs/2604.04759) | OpenClaw 等本地 agent 的真实安全风险分析。 |
 
 ### GitHub Repositories
 
 | Repo | Why It Is Useful |
 | --- | --- |
-| [microsoft/ai-agents-for-beginners](https://github.com/microsoft/ai-agents-for-beginners) | 系统化入门课程。 |
-| [datawhalechina/hello-agents](https://github.com/datawhalechina/hello-agents) | 中文智能体系统教程。 |
+| [jjyaoao/HelloAgents](https://github.com/jjyaoao/HelloAgents) | 基于 OpenAI 原生 API 的生产级多智能体框架，覆盖 ToolResponse、上下文工程、会话持久化、子代理、TraceLogger 等。 |
+| [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) | Bash is all you need，从 0 到 1 学 Claude Code-like agent harness。 |
+| [openclaw/openclaw](https://github.com/openclaw/openclaw) | 研究本地个人 agent、skills、长运行任务、系统工具和权限边界。 |
+| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | 研究自托管 agent、长期记忆、skills、toolsets、多平台消息网关。 |
+| [QualityUnit/harnext](https://github.com/QualityUnit/harnext) | 研究 coding agent CI harness 和 issue-to-PR 自动化流水线。 |
 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | 状态图和可控 agent 编排。 |
 | [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | OpenAI Agents SDK Python。 |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | 多 agent 对话与协作。 |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 角色型多 agent 自动化。 |
-| [run-llama/llama_index](https://github.com/run-llama/llama_index) | RAG 和数据型 agent。 |
 | [QwenLM/Qwen-Agent](https://github.com/QwenLM/Qwen-Agent) | Qwen 生态 agent 框架。 |
 | [browser-use/browser-use](https://github.com/browser-use/browser-use) | 浏览器 agent 实战。 |
 | [SWE-agent/SWE-agent](https://github.com/SWE-agent/SWE-agent) | 软件工程 agent。 |
 | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | 开源 coding agent。 |
+| [microsoft/ai-agents-for-beginners](https://github.com/microsoft/ai-agents-for-beginners) | 系统化入门课程。 |
+| [datawhalechina/hello-agents](https://github.com/datawhalechina/hello-agents) | 中文智能体系统教程。 |
 
 ### Thoughtful Blogs
 
@@ -225,6 +265,15 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 | [Simon Willison: AI/LLM writing](https://simonwillison.net/tags/llms/) | 非常务实的 LLM 工程观察，适合补工程直觉。 |
 | [LangChain Blog](https://blog.langchain.com/) | LangGraph、LangSmith、agent 工程实践。 |
 | [Google Developers Blog: ADK](https://developers.googleblog.com/agent-development-kit-easy-to-build-multi-agent-applications/) | Google ADK 官方发布文章。 |
+
+### Claude Code Source Note
+
+Claude Code 的公开产品形态非常值得研究，但不要把泄露源码镜像作为学习资料收录或依赖。更好的学习路径是：
+
+- 读官方文档，理解 hooks、subagents、MCP、GitHub Actions、permissions。
+- 读公开分析论文，抽象出 agent harness 的设计空间。
+- 跟随 [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) 从零复刻核心机制。
+- 对照 [HelloAgents](https://github.com/jjyaoao/HelloAgents)、OpenClaw、Hermes 这些开源项目，学习工程化实现。
 
 ## Learning Principles
 
