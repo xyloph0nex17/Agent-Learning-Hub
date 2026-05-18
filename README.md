@@ -4,6 +4,10 @@ A curated AI Agent learning roadmap for people who want to build useful, reliabl
 
 这个仓库只维护一个核心展示面：README。目标是把社区里优秀分享、官方博客、论文、开源项目和真实工程经验，整理成一份可以照着执行的 AI Agent 学习 todo list。
 
+## Maintainer
+
+Curated by [陈思州](https://github.com/jjyaoao) (Datawhale 成员) <a href="https://www.xiaohongshu.com/user/profile/67b9cc34000000000e013517" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/Rednote-小红书-e93c49"></a>
+
 ## How To Use
 
 - 如果你是新手：按「Learning Todo List」从上到下做，每完成一项就打勾。
