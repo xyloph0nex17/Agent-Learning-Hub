@@ -46,9 +46,9 @@ Agent 领域变化很快。当前更值得投入的不是老式“角色扮演�
 - [T]  会用一个 LLM API 完成普通对话。
 - [T] 会让模型输出结构化 JSON。
 - [T] 会定义一个工具函数，例如 search、calculator、read_file。
-- [ ] 会解析模型的 tool call / function call。
-- [ ] 会执行工具，并把工具结果喂回模型。
-- [ ] 会给 agent loop 加最大步数、超时和错误处理。
+- [T] 会解析模型的 tool call / function call。
+- [T] 会执行工具，并把工具结果喂回模型。
+- [T] 会给 agent loop 加最大步数、超时和错误处理。
 
 推荐阅读：
 
