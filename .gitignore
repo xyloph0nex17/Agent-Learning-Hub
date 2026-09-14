@@ -217,4 +217,19 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# ==== 本项目自加 ====
+# API key / 密钥：根目录 key 及任意层级的密钥文件
 key
+*.key
+.env
+
+# 检索缓存与向量索引：由 chunker.py / embed.py 生成，可随时重建
+cache/
+*.npy
+
+# SQLite 本地数据库（tools 演示产物）
+*.db
+*.sqlite3
+
+# fastembed 模型缓存（默认在 /tmp，若指到仓库内也一并忽略）
+.fastembed_cache/
