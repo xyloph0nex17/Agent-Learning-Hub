@@ -60,7 +60,7 @@ Agent 领域变化很快。当前更值得投入的不是老式“角色扮演�
 
 ### Stage 2: Learn Tool Use, RAG, And Memory
 
-- [ ] 会做检索增强生成：chunk、embed、retrieve、answer with citations。
+- [T] 会做检索增强生成：chunk、embed、retrieve、answer with citations。
 - [ ] 会把搜索、数据库、文件、浏览器、代码执行接成工具。
 - [ ] 会区分短期上下文、会话记忆、长期记忆。
 - [ ] 会处理工具失败、空结果、重复调用、幻觉引用。
