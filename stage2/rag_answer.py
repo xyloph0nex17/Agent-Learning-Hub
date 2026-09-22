@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
-from chunker import Chunk 
-from retrieve import vector_search
+from rag_chunker import Chunk
+from rag_retrieve import vector_search
 KEY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "key")
 MODEL = "deepseek-chat"
 SYSTEM = (
@@ -26,7 +26,7 @@ def query(q_text: str, top_k: int = 3) -> str:
         return "没有检索到相关资料。"
 
     prompt = f"问题：{q_text}\n\n片段（共 {len(hits)} 条）：\n{build_context(hits)}"
-    key = open("/home/xyx/Agent-Learning-Hub/key").read().strip()
+    key = open(KEY_FILE).read().strip()
     client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=60)
     resp = client.chat.completions.create(
         model=MODEL,

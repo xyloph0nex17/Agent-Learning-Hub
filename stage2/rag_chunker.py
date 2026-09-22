@@ -1,5 +1,5 @@
 from typing import TypedDict
-from load import Doc, load_docs
+from rag_load import Doc, load_docs
 WINDOW=200
 
 class Chunk(TypedDict):

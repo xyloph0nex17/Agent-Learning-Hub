@@ -28,4 +28,48 @@ description:
 读取文件->读取当前目录下的文件
 
 可以在描述中适当举例，若参数是地点，可以举例“比如说北京，上海”
+
+
+{
+  "id": "d63a379f-1a18-4eae-b32e-af280f2aa249",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "你好！我是你的助手，有什么可以帮你的吗？",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      }
+    }
+  ],
+  "created": 1790061174,
+  "model": "deepseek-flash",
+  "object": "chat.completion",
+  "metadata": null,
+  "moderation": null,
+  "service_tier": null,
+  "system_fingerprint": "aeb56401ca74e127821c4f9126dcb669",
+  "usage": {
+    "completion_tokens": 12,
+    "prompt_tokens": 621,
+    "total_tokens": 633,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cache_write_tokens": null,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 621
+  }
+}
+
 ```

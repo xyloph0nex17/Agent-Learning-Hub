@@ -2,8 +2,8 @@ import os
 from fastembed import TextEmbedding
 import numpy as np
 from typing import TypedDict
-from chunker import Chunk
-from chunker import get_chunks
+from rag_chunker import Chunk
+from rag_chunker import get_chunks
 import json
 CACHE_DIR=os.path.join(os.path.dirname(os.path.abspath(__file__)),"cache")
 CHUNK_CACHE=os.path.join(CACHE_DIR,"chunk.json")
