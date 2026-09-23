@@ -7,6 +7,7 @@ import subprocess
 import sys
 import time
 import json
+from pathlib import Path
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.abspath(os.path.join(HERE, "data"))
 CACHE_DIR = os.path.join(HERE, "cache")
@@ -15,25 +16,44 @@ DB_PATH = os.path.join(CACHE_DIR, "knowledge.db")
 def search_local(query:str)->str:
     hits=vector_search(query)
     if not hits:
-        return "未命中"
+        return "EMPTY: 未命中"
     result=[]
     for i,(chunk,num) in enumerate(hits,start=1):
         result.append(f"路径{chunk['doc']}\n编号{chunk['id']}\n内容{chunk['text']}")
-    return ('\n\n').join(result)
+    return f"OK:{('\n\n').join(result)}"
 
-def read_file(path:str)->str:
-    allow=(".md",".txt",".py",".json")
-    target=os.path.abspath(os.path.join(DATA_DIR,path))
-    if not target.endswith(allow):
-        return "无读取这类文件的权限"
-    if not target.startswith(DATA_DIR):
-        return "超出工作区域"
+# def read_file(path:str)->str:
+#     allow=(".md",".txt",".py",".json")
+#     target=os.path.abspath(os.path.join(DATA_DIR,path))
+#     if not target.endswith(allow):
+#         return "ERROR: 无读取这类文件的权限"
+#     if not target.startswith(DATA_DIR):
+#         return "ERROR: 超出工作区域"
+#     try:
+#         with open(target,encoding="utf-8") as f:
+#             text=f.read()
+#         return "EMPTY: 空文件" if not text else f"OK:{text[:2000]}"
+#     except Exception as e:
+#         return f"ERROR: 文件打开错误{e}"
+    
+def read_file(path: str) -> str:
+    base = Path(DATA_DIR).resolve()
+
     try:
-        with open(target,encoding="utf-8") as f:
-            text=f.read()
-        return "该文件为空" if not text else text[:2000]
-    except Exception as e:
-        return f"{e}"
+        target = (base / path).resolve()
+        target.relative_to(base)
+    except (ValueError, OSError, RuntimeError):
+        return "ERROR: 超出工作区域或路径无效"
+
+    allowed = {".md", ".txt", ".py", ".json"}
+    if target.suffix.lower() not in allowed:
+        return "ERROR: 无读取这类文件的权限"
+
+    try:
+        text = target.read_text(encoding="utf-8")
+        return "EMPTY: 空文件" if not text else f"OK:{text[:2000]}"
+    except OSError as e:
+        return f"ERROR: 文件打开错误：{e}"
 
 def build_db(force:bool=False):
     os.makedirs(CACHE_DIR, exist_ok=True)
@@ -59,19 +79,19 @@ def build_db(force:bool=False):
 def sql_query(QUERY:str):
     build_db()
     if not QUERY.strip().lower().startswith("select"):
-        return "仅允许使用select查询"    
+        return "ERROR: 仅允许使用select查询"    
     try:
         conn=sqlite3.connect(DB_PATH)
         result=conn.execute(QUERY).fetchall()
         conn.close()
-        result=result[:20]
-        return f"结果为{result}"
+        
+        return "EMPTY: 结果为空" if not result else f"OK: 结果为{result}"
     except Exception as e:
-        return f"数据库出错：{e}"
+        return f"ERROR: 数据库报错{e}"
 
 def fetch_webpage(url: str, retries: int = 3) -> str:
     if not re.match(r"^https?://", url):
-        return "Error: URL must start with http:// or https://"
+        return "ERROR: URL 必须以 http:// 或 https:// 开头"
     last_err = None
     for attempt in range(1, retries + 1):
         try:
@@ -85,13 +105,16 @@ def fetch_webpage(url: str, retries: int = 3) -> str:
             if attempt < retries:
                 time.sleep(1)                 
     else:
-        return f"Fetch error after {retries} attempts: {last_err}"
+        return f"ERROR: Fetch error after {retries} attempts: {last_err}"
 
     html = re.sub(r"(?is)<(script|style).*?>.*?</\1>", " ", html) 
     text = re.sub(r"(?s)<[^>]+>", " ", html)                        
     text = re.sub(r"&[a-z]+;", " ", text)                          
     text = re.sub(r"\s+", " ", text).strip()
-    return text[:2000] or "(empty page)"
+    if not text:
+        return "EMPTY: 空页面"
+    else:
+        return f"OK: {text[:2000]}"
 
 
 def run_python(code: str) -> str:
@@ -99,10 +122,16 @@ def run_python(code: str) -> str:
         p = subprocess.run([sys.executable, "-c", code],
                            capture_output=True, text=True, timeout=10)
     except subprocess.TimeoutExpired:
-        return "Error: execution timed out (10s)."
+        return "ERROR: execution timed out (10s)."
     out = (p.stdout or "") + (p.stderr or "")
-    return (out[:2000] or "(no output)")
+    if p.returncode != 0:
+        detail = out[:2000] or "没有错误输出"
+        return f"ERROR: 程序运行失败（退出码 {p.returncode}）：\n{detail}"
 
+    if not out.strip():
+        return "EMPTY: 无输出"
+
+    return f"OK: {out[:2000]}"
 if __name__ == "__main__":
     #print(search_local(input()))
     #build_db()

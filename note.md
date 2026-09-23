@@ -72,4 +72,7 @@ description:
   }
 }
 
+用 tool_calls/content 驱动主流程，用 finish_reason 解释结束状态。
+
+
 ```

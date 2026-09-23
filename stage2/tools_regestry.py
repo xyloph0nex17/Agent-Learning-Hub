@@ -1,4 +1,5 @@
 from tools_defs import search_local,read_file,sql_query,fetch_webpage,run_python
+import inspect
 TOOLS=[
     {
         "type":"function",
@@ -84,11 +85,18 @@ REGISTRY={
     "fetch_webpage":fetch_webpage,
     "run_python":run_python,
 }
-def dispatch(func:str,args:dict)->str:
-    if func not in REGISTRY:
-        return f"该函数未定义"
+def dispatch(tool_name:str,args:dict)->str:
+    tool=REGISTRY.get(tool_name)
+    if tool is None:
+        return f"ERROR: 工具{tool_name}未定义"
+    if not isinstance(args,dict):
+        return "ERROR: 参数必须是字典形式"
     try:
-        return REGISTRY[func](**args)
+        inspect.signature(tool).bind(**args)
+    except TypeError as e:
+        return f"ERROR: 参数错误{e}"
+    try:
+        return str(tool(**args))
     except Exception as e:
-        return f"error:{e}"
+        return f"ERROR: 工具执行失败：{type(e).__name__}: {e}"
     

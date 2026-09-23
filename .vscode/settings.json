@@ -1,3 +1,5 @@
 {
-  "python.defaultInterpreterPath": "/home/xyx/Agent-Learning-Hub/.venv/bin/python"
+  "python.defaultInterpreterPath": "/home/xyx/Agent-Learning-Hub/.venv/bin/python",
+  "editor.wordWrap": "off",
+  "editor.renderValidationDecorations": "on"
 }
